@@ -9,5 +9,13 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     env_file:
     - .env
+  django_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "5432:5432"
+      - 8000:8000
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
