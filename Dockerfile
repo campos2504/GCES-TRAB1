@@ -5,13 +5,13 @@ FROM python:3.9
 WORKDIR /app
 
 # Copiando os arquivos de requisitos para o diretório de trabalho
-COPY requirements.txt .
+COPY library_back/requirements.txt .
 
 # Instalando as dependências da aplicação
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiando o código da aplicação para o diretório de trabalho
-COPY . .
+COPY  library_back/ .
 
 # Expondo a porta em que a aplicação irá rodar (defina a porta correta para o Django)
 EXPOSE 8000
