@@ -1,31 +1,28 @@
-version: "3.9"
+version: "3.7"
 services:
   postgres:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    env_file:
-    - library_back/.env
-  django_app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-gces:/var/lib/postgresql/data
+
+  backend:
+    build: library_back
     ports:
       - 8000:8000
-    volumes:
-      - ./library_back:/app
+    env_file:
+      - ./library_back/.env
     depends_on:
       - postgres
-  node_app:
-    build:
-      context: .
-      dockerfile: Dockerfile.node
+
+  frontend:
+    build: library_front
     ports:
       - 3000:3000
-    volumes:
-      - ./library_front:/web
     depends_on:
       - postgres
+      - backend
+
+volumes:
+  postgres-gces:
